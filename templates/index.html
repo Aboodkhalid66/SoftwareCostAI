@@ -70,17 +70,20 @@
             margin-bottom: 7px;
         }
 
-        input {
-            padding: 11px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
-        }
+        input,
+select {
+    padding: 11px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    background: white;
+}
 
-        input:focus {
-            outline: none;
-            border-color: #555;
-        }
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #555;
+}
 
         .button-container {
             margin-top: 25px;
@@ -149,7 +152,7 @@
             <form method="POST">
 
     <div class="form-group">
-        <label>Hourly Rate ($)</label>
+        <label>تكلفة العمل في الساعة ($)</label>
         <input
             type="number"
             name="HourlyRate"
@@ -162,81 +165,101 @@
                 <div class="form-grid">
 
                     <div class="form-group">
-                        <label>Team Experience</label>
-                        <input type="number"
-                               name="TeamExp"
-                               step="any"
-                               required>
-                    </div>
+    <label>خبرة فريق التطوير</label>
+    <select name="TeamExp" required>
+        <option value="">اختر مستوى الخبرة</option>
+        <option value="1">مبتدئ</option>
+        <option value="2">متوسط</option>
+        <option value="4">خبير</option>
+    </select>
+</div>
+
+
+<div class="form-group">
+    <label>خبرة مدير المشروع</label>
+    <select name="ManagerExp" required>
+        <option value="">اختر مستوى الخبرة</option>
+        <option value="1">مبتدئ</option>
+        <option value="2">متوسط</option>
+        <option value="4">خبير</option>
+    </select>
+</div>
+
+
+                  <div class="form-group">
+    <label>تسليم المشروع</label>
+    <input type="number"
+           name="YearEnd"
+           min="82"
+           max="88"
+           placeholder="مثال: 85"
+           required>
+</div>
+
+
+                 <div class="form-group">
+    <label>مدة تنفيذ المشروع</label>
+    <input type="number"
+           name="Length"
+           min="1"
+           placeholder="بالشهور"
+           required>
+</div>
+
+
+                  <div class="form-group">
+    <label>عدد وظائف المشروع</label>
+    <input type="number"
+           name="Transactions"
+           min="1"
+           placeholder="مثال: 120"
+           required>
+</div>
+
+
+                 <div class="form-group">
+    <label>عدد أنواع البيانات</label>
+    <input type="number"
+           name="Entities"
+           min="1"
+           placeholder="مثال: 50"
+           required>
+</div>
 
 
                     <div class="form-group">
-                        <label>Manager Experience</label>
-                        <input type="number"
-                               name="ManagerExp"
-                               step="any"
-                               required>
-                    </div>
+    <label>حجم النظام الوظيفي</label>
+    <input type="number"
+           name="PointsNonAdjust"
+           min="1"
+           placeholder="مثال: 300"
+           required>
+</div>
 
 
                     <div class="form-group">
-                        <label>Project End Year</label>
-                        <input type="number"
-                               name="YearEnd"
-                               required>
-                    </div>
+    <label>معامل التعديل</label>
+    <input type="number"
+           name="Adjustment"
+           min="5"
+           max="52"
+           placeholder="مثال: 30"
+           required>
+</div>
 
 
                     <div class="form-group">
-                        <label>Project Length</label>
-                        <input type="number"
-                               name="Length"
-                               required>
-                    </div>
+    <label>الحجم الوظيفي المعدل</label>
+<input type="number"
+       name="PointsAjust"
+       id="PointsAjust"
+       readonly
+       placeholder="يُحسب تلقائياً">
+</div>
 
 
                     <div class="form-group">
-                        <label>Transactions</label>
-                        <input type="number"
-                               name="Transactions"
-                               required>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label>Entities</label>
-                        <input type="number"
-                               name="Entities"
-                               required>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label>Points Non Adjusted</label>
-                        <input type="number"
-                               name="PointsNonAdjust"
-                               required>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label>Adjustment</label>
-                        <input type="number"
-                               name="Adjustment"
-                               required>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label>Adjusted Points</label>
-                        <input type="number"
-                               name="PointsAjust"
-                               required>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label>Programming Language</label>
+                        <label>عدد لغات البرمجة</label>
                         <input type="number"
                                name="Language"
                                required>
@@ -290,6 +313,28 @@
 
     </div>
 
+
+<script>
+    const pointsNonAdjust = document.querySelector('input[name="PointsNonAdjust"]');
+    const adjustment = document.querySelector('input[name="Adjustment"]');
+    const pointsAjust = document.querySelector('input[name="PointsAjust"]');
+
+    function calculateAdjustedPoints() {
+        const p = parseFloat(pointsNonAdjust.value);
+        const a = parseFloat(adjustment.value);
+
+        if (!isNaN(p) && !isNaN(a)) {
+            const result = p * (0.65 + (0.01 * a));
+            pointsAjust.value = result.toFixed(2);
+        } else {
+            pointsAjust.value = "";
+        }
+    }
+
+    pointsNonAdjust.addEventListener("input", calculateAdjustedPoints);
+    adjustment.addEventListener("input", calculateAdjustedPoints);
+</script>
+    
 </body>
 
 </html>
