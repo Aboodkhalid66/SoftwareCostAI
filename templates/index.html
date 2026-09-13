@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Software Cost Estimation</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin-top: 8px;
+            color: #d1d5db;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input {
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #555;
+        }
+
+        .button-container {
+            margin-top: 25px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 7px;
+            background: #1f2937;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #374151;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 25px;
+            text-align: center;
+            background: #f0f2f4;
+            border-radius: 10px;
+        }
+
+        .result h3 {
+            margin-top: 0;
+        }
+
+        .result-value {
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 700px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+
+        <h1>AI Software Cost Estimation</h1>
+
+        <p>
+            Software Project Effort Estimation System
+        </p>
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2>Enter Project Information</h2>
+
+            <form method="POST">
+
+    <div class="form-group">
+        <label>Hourly Rate ($)</label>
+        <input
+            type="number"
+            name="HourlyRate"
+            step="0.01"
+            min="0"
+            placeholder="Example: 20"
+            required>
+    </div>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Team Experience</label>
+                        <input type="number"
+                               name="TeamExp"
+                               step="any"
+                               required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Manager Experience</label>
+                        <input type="number"
+                               name="ManagerExp"
+                               step="any"
+                               required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Project End Year</label>
+                        <input type="number"
+                               name="YearEnd"
+                               required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Project Length</label>
+                        <input type="number"
+                               name="Length"
+                               required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Transactions</label>
+                        <input type="number"
+                               name="Transactions"
+                               required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Entities</label>
+                        <input type="number"
+                               name="Entities"
+                               required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Points Non Adjusted</label>
+                        <input type="number"
+                               name="PointsNonAdjust"
+                               required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Adjustment</label>
+                        <input type="number"
+                               name="Adjustment"
+                               required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Adjusted Points</label>
+                        <input type="number"
+                               name="PointsAjust"
+                               required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Programming Language</label>
+                        <input type="number"
+                               name="Language"
+                               required>
+                    </div>
+
+                </div>
+
+
+                <div class="button-container">
+
+                    <button type="submit">
+                        Estimate Project Effort
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            {% if prediction is not none %}
+
+<div class="result">
+
+    <h3>Estimated Project Effort</h3>
+
+    <div class="result-value">
+        {{ "%.2f"|format(prediction) }}
+    </div>
+
+    <hr>
+
+    <h3>Hourly Rate</h3>
+
+    <div class="result-value">
+        ${{ "%.2f"|format(hourly_rate) }}
+    </div>
+
+    <hr>
+
+    <h3>Estimated Project Cost</h3>
+
+    <div class="result-value">
+        ${{ "%.2f"|format(cost) }}
+    </div>
+
+</div>
+
+{% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
